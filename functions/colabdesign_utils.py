@@ -141,6 +141,9 @@ def binder_hallucination(design_name, starting_pdb, chain, target_hotspot_residu
             # perform one hot encoding
             if softmax_plddt > 0.65:
                 print("Softmax trajectory pLDDT good, continuing: "+str(softmax_plddt))
+
+                onehot_plddt = softmax_plddt
+
                 if advanced_settings["hard_iterations"] > 0:
                     af_model.clear_best()
                     print("Stage 3: One-hot Optimisation")
@@ -323,8 +326,11 @@ def predict_binder_alone(prediction_model, binder_sequence, mpnn_design_name, le
             prediction_metrics = copy_dict(prediction_model.aux["log"]) # contains plddt, ptm, pae
 
             # align binder model to trajectory binder
-            align_pdbs(trajectory_pdb, binder_alone_pdb, binder_chain, "A")
-
+            try:
+                align_pdbs(trajectory_pdb, binder_alone_pdb, binder_chain, "A")
+            except Exception as e:
+                print(f"Warning: alignment failed for {mpnn_design_name}_model{model_num+1}: {e}")
+                
             # extract the statistics for the model
             stats = {
                 'pLDDT': round(prediction_metrics['plddt'], 2), 
