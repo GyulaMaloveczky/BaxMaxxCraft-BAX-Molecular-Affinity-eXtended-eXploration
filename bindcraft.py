@@ -311,9 +311,14 @@ while True:
                         # extract RMSDs of binder to the original trajectory
                         for model_num in prediction_models:
                             mpnn_binder_pdb = os.path.join(design_paths["MPNN/Binder"], f"{mpnn_design_name}_model{model_num+1}.pdb")
-
+                          
+                            rmsd_binder = None
                             if os.path.exists(mpnn_binder_pdb):
-                                rmsd_binder = unaligned_rmsd(trajectory_pdb, mpnn_binder_pdb, binder_chain, "A")
+                                try:
+                                    rmsd_binder = unaligned_rmsd(trajectory_pdb, mpnn_binder_pdb, binder_chain, "A")
+                                except Exception as e:
+                                    print(f"Warning: failed to calculate binder RMSD for {mpnn_design_name}_model{model_num+1}: {e}")
+                                    rmsd_binder = None
 
                             # append to statistics
                             binder_statistics[model_num+1].update({
@@ -321,7 +326,7 @@ while True:
                                 })
 
                             # save space by removing binder monomer models?
-                            if advanced_settings["remove_binder_monomer"]:
+                            if advanced_settings["remove_binder_monomer"] and os.path.exists(mpnn_binder_pdb):
                                 os.remove(mpnn_binder_pdb)
 
                         # calculate binder averages
@@ -364,7 +369,7 @@ while True:
                         insert_data(mpnn_csv, mpnn_data)
 
                         # find best model number by pLDDT
-                        plddt_values = {i: mpnn_data[i] for i in range(11, 15) if mpnn_data[i] is not None}
+                        plddt_values = {i: mpnn_data[i] for i in range(11, 16) if mpnn_data[i] is not None}
 
                         # Find the key with the highest value
                         highest_plddt_key = int(max(plddt_values, key=plddt_values.get))
