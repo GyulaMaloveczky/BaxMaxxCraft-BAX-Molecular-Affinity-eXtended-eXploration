@@ -1,0 +1,41 @@
+Available GPUs:
+NVIDIA RTX PRO 5000 Blackwell1: gpu
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                                  PyRosetta-4                                  │
+│               Created in JHU by Sergey Lyskov and PyRosetta Team              │
+│               (C) Copyright Rosetta Commons Member Institutions               │
+│                                                                               │
+│ NOTE: USE OF PyRosetta FOR COMMERCIAL PURPOSES REQUIRES PURCHASE OF A LICENSE │
+│          See LICENSE.PyRosetta.md or email license@uw.edu for details         │
+└───────────────────────────────────────────────────────────────────────────────┘
+PyRosetta-4 2026 [Rosetta PyRosetta4.Release.python310.ubuntu.cxx11thread.serialization 2026.03+releasequarterly.5e498f1409c68ade56c8ce5842bf79e1b02e8db4 2026-01-13T13:24:11] retrieved from: http://www.pyrosetta.org
+Running binder design for target settings_bindcraft_15
+Design settings used: peptide_3stage_multimer
+Filtering designs based on peptide_relaxed_filters
+Starting trajectory: BAX_1F16_l12_s197343
+WARNING: 'model_1_multimer_v3' not found
+WARNING: 'model_2_multimer_v3' not found
+WARNING: 'model_3_multimer_v3' not found
+WARNING: 'model_4_multimer_v3' not found
+WARNING: 'model_5_multimer_v3' not found
+Stage 1: running (logits → soft)
+Traceback (most recent call last):
+  File "/FastHome/gyula/repos/BindCraft/bindcraft.py", line 109, in <module>
+    trajectory = binder_hallucination(design_name, target_settings["starting_pdb"], target_settings["chains"],
+  File "/FastHome/gyula/repos/BindCraft/functions/colabdesign_utils.py", line 79, in binder_hallucination
+    af_model.design_3stage(soft_iters=advanced_settings["soft_iterations"], temp_iters=advanced_settings["temporary_iterations"], hard_iters=advanced_settings["hard_iterations"],
+  File "/FastHome/gyula/anaconda3/envs/BindCraft/lib/python3.10/site-packages/colabdesign/af/design.py", line 376, in design_3stage
+    self.design_logits(soft_iters, e_soft=1,
+  File "/FastHome/gyula/anaconda3/envs/BindCraft/lib/python3.10/site-packages/colabdesign/af/design.py", line 354, in design_logits
+    self.design(iters, **kwargs)
+  File "/FastHome/gyula/anaconda3/envs/BindCraft/lib/python3.10/site-packages/colabdesign/af/design.py", line 348, in design
+    self.step(lr_scale=lr_scale, num_recycles=num_recycles,
+  File "/FastHome/gyula/anaconda3/envs/BindCraft/lib/python3.10/site-packages/colabdesign/af/design.py", line 214, in step
+    self.run(num_recycles=num_recycles, num_models=num_models, sample_models=sample_models,
+  File "/FastHome/gyula/anaconda3/envs/BindCraft/lib/python3.10/site-packages/colabdesign/af/design.py", line 89, in run
+    model_nums = self._get_model_nums(num_models, sample_models, models)
+  File "/FastHome/gyula/anaconda3/envs/BindCraft/lib/python3.10/site-packages/colabdesign/af/design.py", line 71, in _get_model_nums
+    ns = [ns[n if isinstance(n,int) else ns_name.index(n)] for n in models]
+  File "/FastHome/gyula/anaconda3/envs/BindCraft/lib/python3.10/site-packages/colabdesign/af/design.py", line 71, in <listcomp>
+    ns = [ns[n if isinstance(n,int) else ns_name.index(n)] for n in models]
+IndexError: list index out of range

@@ -1,0 +1,29 @@
+{
+  "balm_aux": {
+    "enabled": true,
+    "weight": 20.0,
+    "checkpoint_path": "/FastHome/gyula/repos/BALM-PPI_two_backbones/BALM-PPI/Notebooks/sft_combined_alone_10epochs.pt",
+    "target_sequence": "QPRGGGPTSSEQIMKTGALLLQGFIQDRAGRMGGEAPELALDPVPQDASTKKLSECLKRIGDELDSNMELQRMIAAVDTDSPREVFFRVAADMFSDGNFNWGRVVALFYFASKLVLKALCTKVPELIRTIMGWTLDFLRERLLGWIQDQGGWDGLLSYFG",
+    "active_stages": [
+      4
+    ],
+    "metric": "cosine",
+    "direction": "minimize",
+    "device": "cuda",
+    "fail_open": false,
+    "min_score": -1.0
+  },
+  "structure_barrier": {
+    "enabled": true,
+    "weight": 100.0,
+    "plddt_floor": 0.75,
+    "iptm_floor": 0.75
+  },
+  "esm_naturalness": {
+    "enabled": true,
+    "weight": 1.0,
+    "model_name": "facebook/esm2_t33_650M_UR50D",
+    "margin": 1.0,
+    "device": "cuda"
+  }
+}

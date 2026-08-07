@@ -1,0 +1,10 @@
+=== 188224_0 starting on gn9, restart #0 at 2026-08-03 09:12:41 ===
+Start - Task ID: 0
+2026-08-05 13:13:03 yield requested; requeueing 188224_0
+slurmstepd: error: *** JOB 188224 ON gn9 CANCELLED AT 2026-08-05T13:13:03 DUE TO JOB REQUEUE ***
+=== 188224_0 starting on gn9, restart #1 at 2026-08-05 13:15:47 ===
+Start - Task ID: 0
+2026-08-05 13:20:47 yield requested; requeueing 188224_0
+slurmstepd: error: *** JOB 188224 ON gn9 CANCELLED AT 2026-08-05T13:20:47 DUE TO JOB REQUEUE ***
+=== 188224_0 starting on gn9, restart #2 at 2026-08-05 16:28:41 ===
+Start - Task ID: 0

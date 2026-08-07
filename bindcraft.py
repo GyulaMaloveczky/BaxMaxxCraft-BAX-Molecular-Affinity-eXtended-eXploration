@@ -2,7 +2,21 @@
 ###################### BindCraft Run
 ####################################
 ### Import dependencies
+
+
+
+import os
+import jax
+cache_dir = "/tmp/jax_cache"
+os.makedirs(cache_dir, exist_ok=True)
+jax.config.update("jax_compilation_cache_dir", cache_dir)
+jax.config.update("jax_persistent_cache_min_entry_size_bytes", -1)
+jax.config.update("jax_persistent_cache_min_compile_time_secs", 0)
+
+
+
 from functions import *
+from functions.colabdesign_utils import get_balm_scorer
 
 # Check if JAX-capable GPU is available, otherwise exit
 check_jax_gpu()
@@ -315,7 +329,7 @@ while True:
                             rmsd_binder = None
                             if os.path.exists(mpnn_binder_pdb):
                                 try:
-                                    rmsd_binder = unaligned_rmsd(trajectory_pdb, mpnn_binder_pdb, binder_chain, "A")
+                                    rmsd_binder = unaligned_rmsd(trajectory_pdb, mpnn_binder_pdb, binder_chain, "A", superimpose=True)
                                 except Exception as e:
                                     print(f"Warning: failed to calculate binder RMSD for {mpnn_design_name}_model{model_num+1}: {e}")
                                     rmsd_binder = None
@@ -364,6 +378,31 @@ while True:
 
                         # Add the remaining non-statistical data
                         mpnn_data.extend([elapsed_mpnn_text, seq_notes, settings_file, filters_file, advanced_file])
+
+                        # --- BALM / trajectory provenance (must stay LAST, see
+                        # generate_dataframe_labels) ---
+                        # mpnn_sequence['seq'] is already binder-only: it is
+                        # mpnn_trajectories['seq'][n][-length:], so BALM scores it directly.
+                        _bm = getattr(trajectory, "_balm_meta", None) or {}
+                        _balm_mpnn = None
+                        _scorer = get_balm_scorer()
+                        if _scorer is not None:
+                            try:
+                                _balm_mpnn = round(float(_scorer.raw_score(mpnn_sequence['seq'])), 4)
+                            except Exception as _e:
+                                print(f"[balm] MPNN rescore failed for {mpnn_design_name}: {_e}")
+                        mpnn_data.extend([
+                            _bm.get("trajectory_sequence"),   # pre-MPNN binder sequence
+                            trajectory_interface_residues,    # residues FIXED during MPNN
+                            _bm.get("balm_trajectory"),       # stage-4 parent score
+                            _balm_mpnn,                       # this MPNN sequence rescored
+                            _bm.get("greedy_iteration"),      # which semigreedy iteration
+                            _bm.get("candidate_rank"),        # 0 = winner, 1+ = runner-up
+                            _bm.get("is_fallback"),
+                            _bm.get("fallback_reason"),       # 'clashes' / 'contacts' / ''
+                            _bm.get("pre_greedy_sequence"),   # sequence Stage 4 started from
+                            _bm.get("greedy_step_sequences"), # ';'-joined, one per accepted step
+                        ])
 
                         # insert data into csv
                         insert_data(mpnn_csv, mpnn_data)

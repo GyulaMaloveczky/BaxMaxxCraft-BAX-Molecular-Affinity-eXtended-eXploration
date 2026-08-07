@@ -33,6 +33,14 @@ def generate_dataframe_labels():
 
     design_labels += ['DesignTime', 'Notes', 'TargetSettings', 'Filters', 'AdvancedSettings']
 
+    # BALM / trajectory provenance. APPENDED AT THE END ON PURPOSE: bindcraft.py
+    # indexes mpnn_data positionally (plddt_values = mpnn_data[11:16]), so inserting
+    # anywhere earlier would silently read the wrong columns. check_filters() looks
+    # these up by name and simply finds no threshold, so filtering is unaffected.
+    design_labels += ['TrajectorySequence', 'FixedResidues', 'BALM_Trajectory', 'BALM_MPNN',
+                      'GreedyIteration', 'CandidateRank', 'IsFallback', 'FallbackReason',
+                      'PreGreedySequence', 'GreedyStepSequences']
+
     final_labels = ['Rank'] + design_labels
 
     return trajectory_labels, design_labels, final_labels

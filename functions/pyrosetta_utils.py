@@ -169,7 +169,7 @@ def align_pdbs(reference_pdb, align_pdb, reference_chain_id, align_chain_id):
     clean_pdb(align_pdb)
 
 # calculate the rmsd without alignment
-def unaligned_rmsd(reference_pdb, align_pdb, reference_chain_id, align_chain_id):
+def unaligned_rmsd(reference_pdb, align_pdb, reference_chain_id, align_chain_id, superimpose=False):
     reference_pose = pr.pose_from_pdb(reference_pdb)
     align_pose = pr.pose_from_pdb(align_pdb)
 
@@ -196,6 +196,8 @@ def unaligned_rmsd(reference_pdb, align_pdb, reference_chain_id, align_chain_id)
     # Calculate RMSD using the RMSDMetric
     rmsd_metric = RMSDMetric()
     rmsd_metric.set_comparison_pose(reference_chain_pose)
+    if superimpose:
+        rmsd_metric.set_run_superimpose(True) 
     rmsd = rmsd_metric.calculate(align_chain_pose)
 
     return round(rmsd, 2)
