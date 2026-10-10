@@ -1,1 +1,45 @@
+# Local data / generated output
 params/
+logs/
+outputs/
+artifacts/
+results/
+tmp/
+cache/
+slurm_output_*/
+
+# Python cache / editor noise
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.venv/
+venv/
+.env
+
+# OS / editor files
+.DS_Store
+.vscode/
+.idea/
+
+# Common generated outputs
+*.log
+*.out
+*.err
+*.pkl
+*.npy
+*.npz
+*.csv
+*.tsv
+
+# Build artifacts
+build/
+dist/
+*.so
+*.dll
+
+# Notebook artifacts
+.ipynb_checkpoints/
