@@ -143,7 +143,7 @@ Truncate flexible terminal regions distant from the interface and cap the
 resulting chain ends with acetyl and N-methylamide groups, so they carry no
 artificial formal charge. This shrinks the water box considerably. AlphaFold2 is
 insensitive to chemical caps, so this does not affect the design stage, only the
-simulation.
+simulation. This is why I only truncated the chain in the simulation and not during design.
 
 Scripts: `<PREP_SCRIPT>`
 
