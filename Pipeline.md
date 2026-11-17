@@ -8,8 +8,8 @@ stage 1 with an affinity model attached.
 
 ```
   1. BindCraft generation  ──►  2. MD + MM/PBSA  ──►  3. Fine-tune BALM-PPI
-            ▲                                                   │
-            └──────────── 4. Guided generation ◄────────────────┘
+                                   ▲                            │
+                                   └─ 4. Guided generation ◄────┘
 ```
 
 > **Placeholders.** `<...>` marks a path or name you must fill in for your own
